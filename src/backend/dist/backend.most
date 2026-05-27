@@ -1,0 +1,143 @@
+// Version: 4.0.0
+type AccessControlState__45017055 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__605269027<Principal, UserRole__1073662873>
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type FreeRaffleEntry__1069561493 =
+  {
+    entryCount : Nat;
+    lastClickAt : Int;
+    registeredAt : Int;
+    walletAddress : Text
+  };
+type FreeRaffleEntry__537467290 =
+  {
+    entryCount : Nat;
+    lastClickAt : Timestamp__301639476;
+    registeredAt : Timestamp__301639476;
+    walletAddress : Text
+  };
+type FreeRaffleEntry__713842870 =
+  {
+    entryCount : Nat;
+    lastClickAt : Int;
+    registeredAt : Int;
+    walletAddress : Text
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__577595515 =
+  {
+    accessControlState : AccessControlState__45017055;
+    raffleEntries : List__415060402<FreeRaffleEntry__1069561493>;
+    registrations : List__415060402<Registration__800095583>
+  };
+type NewActor__670431317 =
+  {
+    accessControlState : AccessControlState__45017055;
+    purchases :
+      Map__605269027<Principal, List__415060402<VerifiedPurchase__197086439>>;
+    raffleEntries : List__415060402<FreeRaffleEntry__713842870>;
+    registrations : List__415060402<Registration__984441714>;
+    usedSessions : Map__605269027<Text, Bool>
+  };
+type NewActor__947983423 =
+  {
+    accessControlState : AccessControlState__45017055;
+    registrations : List__415060402<Registration__954920924>
+  };
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OldActor__1046790669 = {};
+type OldActor__620878720 =
+  {
+    accessControlState : AccessControlState__45017055;
+    registrations : List__415060402<Registration__800095583>
+  };
+type OldActor__79792203 =
+  {
+    accessControlState : AccessControlState__45017055;
+    raffleEntries : List__415060402<FreeRaffleEntry__713842870>;
+    registrations : List__415060402<Registration__984441714>
+  };
+type Registration__282286680 =
+  {
+    tier : Tier__337424587;
+    timestamp : Timestamp__301639476;
+    walletAddress : Text
+  };
+type Registration__800095583 =
+  {tier : Nat; timestamp : Int; walletAddress : Text};
+type Registration__954920924 =
+  {tier : Nat; timestamp : Int; walletAddress : Text};
+type Registration__984441714 =
+  {tier : Nat; timestamp : Int; walletAddress : Text};
+type Tier__337424587 = Nat;
+type Timestamp__301639476 = Int;
+type UserRole__1073662873 = {#admin; #guest; #user};
+type VerifiedPurchase__197086439 =
+  {
+    principal : Principal;
+    stripeSessionId : Text;
+    tier : Nat;
+    timestamp : Int
+  };
+type VerifiedPurchase__605781899 =
+  {
+    principal : Principal;
+    stripeSessionId : Text;
+    tier : Tier__337424587;
+    timestamp : Int
+  };
+{
+  "20260526_000000_Init" : OldActor__1046790669 -> NewActor__947983423;
+  "20260526_010000_AddFreeRaffle" :
+    (old : OldActor__620878720) -> NewActor__577595515;
+  "20260526_020000_AddPurchaseVerification" :
+    (old : OldActor__79792203) -> NewActor__670431317
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1073662873>
+    };
+  stable purchases :
+    {
+      var root :
+        Node__46230540<Principal,
+                        List__415060402<VerifiedPurchase__605781899>>;
+      var size : Nat__490723111
+    };
+  stable raffleEntries :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?FreeRaffleEntry__537467290]];
+      var elementIndex : Nat__490723111
+    };
+  stable registrations :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Registration__282286680]];
+      var elementIndex : Nat__490723111
+    };
+  stable usedSessions :
+    {var root : Node__46230540<Text, Bool>; var size : Nat__490723111}
+};

@@ -1,0 +1,21 @@
+{
+  "overview": "Phantom Lattice airdrop registration site where NFT holders register their Polygon wallet for ORB allocation, and anyone can enter a daily raffle for a chance to join the lattice for free.",
+  "features": [
+    "Paid tier registration (Tier 1/2/3) with Stripe buy buttons",
+    "Free raffle registration with daily entry mechanic",
+    "24-hour cooldown enforced for daily raffle entries",
+    "Admin panel with separate paid and free registration views",
+    "Copy-to-clipboard export for all registrations",
+    "Dark navy and purple glow design"
+  ],
+  "category": "web-app",
+  "tags": [
+    "crypto",
+    "nft",
+    "airdrop",
+    "raffle",
+    "polygon",
+    "phantom-lattice"
+  ],
+  "last_updated": "2026-05-26T17:44:44.956Z"
+}

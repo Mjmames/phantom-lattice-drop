@@ -1,0 +1,81 @@
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Timestamp = int;
+type TierCounts = 
+ record {
+   tier1: nat;
+   tier2: nat;
+   tier3: nat;
+ };
+type Tier = nat;
+type Registration = 
+ record {
+   tier: Tier;
+   timestamp: Timestamp;
+   walletAddress: text;
+ };
+type RegisterResult = 
+ variant {
+   err: variant {
+          duplicate;
+          invalidTier;
+        };
+   ok;
+ };
+type RaffleStatus = 
+ variant {
+   notRegistered;
+   ok: record {
+         entryCount: nat;
+         lastClickAt: int;
+       };
+ };
+type RaffleResult = 
+ variant {
+   alreadyRegistered;
+   cooldownActive;
+   notRegistered;
+   ok;
+ };
+type PurchaseResult = 
+ variant {
+   err: variant {
+          duplicate;
+          invalidTier;
+        };
+   ok;
+ };
+type PurchaseRecord = 
+ record {
+   "principal": principal;
+   tiers: vec nat;
+   walletAddress: opt text;
+ };
+type FreeRaffleEntry = 
+ record {
+   entryCount: nat;
+   lastClickAt: Timestamp;
+   registeredAt: Timestamp;
+   walletAddress: text;
+ };
+service : {
+  _initializeAccessControl: () -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  claimDailyEntry: (walletAddress: text) -> (RaffleResult);
+  getCallerUserRole: () -> (UserRole) query;
+  getFreeRaffleStatus: (walletAddress: text) -> (RaffleStatus) query;
+  getMyPurchases: () -> (vec nat) query;
+  getTierCounts: (password: text) -> (TierCounts) query;
+  isCallerAdmin: () -> (bool) query;
+  listAllPurchases: (password: text) -> (vec PurchaseRecord) query;
+  listRaffleEntries: (password: text) -> (vec FreeRaffleEntry);
+  listRegistrations: (password: text) -> (vec Registration) query;
+  recordPurchaseVerification: (tier: nat, stripeSessionId: text) ->
+   (PurchaseResult);
+  registerRaffle: (walletAddress: text) -> (RaffleResult);
+  registerWallet: (walletAddress: text, tier: nat) -> (RegisterResult);
+}
